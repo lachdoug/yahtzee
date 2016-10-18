@@ -41,7 +41,7 @@ class User < ApplicationRecord
 
   def update_metrics
     user_metrics.update
-    byebug
+    # byebug
   end
 
   def self.ranked_users
