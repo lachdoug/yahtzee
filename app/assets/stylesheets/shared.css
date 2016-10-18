@@ -5,7 +5,6 @@ pre { max-height: 300px; }
 
 body.dark_background pre { background-color: #fff; color: #a04; }
 
-{ , serif; font-size: 16px; overflow-y: scroll; }
 ul { list-style-type: square; }
 .home_page { margin-top: 50px; }
 .home_page h2 { color: #5bc0de; text-shadow: 2px 2px rgba(0, 0, 0, 0.1); }
