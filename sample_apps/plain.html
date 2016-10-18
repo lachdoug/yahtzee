@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Specify character encoding -->
+<meta charset="utf-8">
+
+<!-- Set page title -->
+<title>Yaaahtzeee!</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+<style>
+  .die_container { display: inline-block; }
+</style>
+
+<h1>My awesome yahtzee game!</h1>
+
+<form href="/" data-remote="true">
+  <div class='die_container'>
+    <div id="die_1"></div>
+    <input type="checkbox" name="reroll_1" id="reroll_1" value="1" />
+  </div>
+  <div class='die_container'>
+    <div id="die_2"></div>
+    <input type="checkbox" name="reroll_2" id="reroll_2" value="1" />
+  </div>
+  <div class='die_container'>
+    <div id="die_3"></div>
+    <input type="checkbox" name="reroll_3" id="reroll_3" value="1" />
+  </div>
+  <div class='die_container'>
+    <div id="die_4"></div>
+    <input type="checkbox" name="reroll_4" id="reroll_4" value="1" />
+  </div>
+  <div class='die_container'>
+    <div id="die_5"></div>
+    <input type="checkbox" name="reroll_5" id="reroll_5" value="1" />
+  </div>
+  <button name="button" type="submit" class="btn btn-lg btn-default">
+    <i class="fa fa-repeat"></i> Roll
+  </button>
+</form>
+
+<div id="result"></div>
+
+<a class="twitter-share-button"
+  href="https://twitter.com/intent/tweet?text=Hello%20world">
+Tweet</a>
+
+<script>
+  $.ajaxSetup({
+    headers: { 'Authorization' : 'Token nO5lNrKVrSE4zIkYTSgWiAtt' }
+  });
+
+  $.getJSON( 'http://localhost:3333/games/new',
+    function(data) {
+
+alert('hi');
+
+     $('#die_1').html( data["dice"][0] );
+     $('#die_2').html( data["dice"][1] );
+     $('#die_3').html( data["dice"][2] );
+     $('#die_4').html( data["dice"][3] );
+     $('#die_5').html( data["dice"][4] );
+     $('#result').html( JSON.stringify(data) );
+    }
+  ).error(function(request, status, error) { alert(request.responseText); });
+</script>
+
+</body>
+</html>

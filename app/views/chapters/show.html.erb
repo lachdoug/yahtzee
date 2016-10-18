@@ -1,0 +1,29 @@
+<% @chapter.tap do |c| %>
+<h3><%= c.order %>. <%= c.name %></h3>
+<%= markdown_text c.preface %>
+<% end %>
+
+<br>
+<div>
+<%= link_to icon_text('fa-plus', "New page"), new_page_path(chapter_id: @chapter.id), class: 'btn btn-link' if current_user.is_admin? %>
+</div>
+<br>
+<% @chapter.pages.each do |p| %>
+  <div class="clearfix">
+  <%= content_tag :div, class: 'btn-group' do %>
+    <%= link_to ( "#{p.order}. #{p.name}" ), page_path(p), class: 'btn btn-link' %>
+  <% end %>
+  <%= content_tag :div, class: 'btn-group pull-right' do %>
+    <%= content_tag :div, class: 'btn-group' do %>
+      <%= link_to edit_page_path(p), class: 'btn btn-link' do %>
+        <%= icon('fa-edit') %>
+      <% end if current_user.is_admin? %>
+    <% end %>
+    <%= content_tag :div, class: 'btn-group' do %>
+      <%= button_to page_path(p), method: :delete, class: 'btn btn-link', 'data-confirm': 'Are you sure that you want to delete this page?' do %>
+        <%= icon('fa-trash-o') %>
+      <% end if current_user.is_admin? %>
+    <% end %>
+  <% end %>
+  </div>
+<% end %>

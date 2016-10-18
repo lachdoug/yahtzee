@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>App 2.1</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js">
+</script>
+</head>
+<style>
+.value { display: inline-block; }
+.button { cursor: pointer; padding: 10px; color: #00f; }
+#scorecard { border: 1px solid black; width: 200px; }
+.complete-turn { cursor: pointer; color: #00f; }
+.align-right { text-align: right; }
+</style>
+
+<body>
+<h1>Yahtzee</h1>
+<div id="loading">loading...</div>
+<div id="dice">
+  <div id="die_1" class="die">
+    <input type="checkbox">
+    <div class="value"></div>
+  </div>
+  <div id="die_2" class="die">
+    <input type="checkbox">
+    <div class="value"></div>
+  </div>
+  <div id="die_3" class="die">
+    <input type="checkbox">
+    <div class="value"></div>
+  </div>
+  <div id="die_4" class="die">
+    <input type="checkbox">
+    <div class="value"></div>
+  </div>
+  <div id="die_5" class="die">
+    <input type="checkbox">
+    <div class="value"></div>
+  </div>
+</div>
+<div id="roll-button" class="button">Roll</div>
+<div id="progress">&nbsp</div>
+
+<table id="scorecard">
+  <tr>
+    <td>Ones</td>
+    <td class="align-right" id="scorecard-ones"></td>
+  </tr>
+  <tr>
+    <td>Twos</td>
+    <td class="align-right" id="scorecard-twos"></td>
+  </tr>
+  <tr>
+    <td>Threes</td>
+    <td class="align-right" id="scorecard-threes"></td>
+  </tr>
+  <tr>
+    <td>Fours</td>
+    <td class="align-right" id="scorecard-fours"></td>
+  </tr>
+  <tr>
+    <td>Fives</td>
+    <td class="align-right" id="scorecard-fives"></td>
+  </tr>
+  <tr>
+    <td>Sixes</td>
+    <td class="align-right" id="scorecard-sixes"></td>
+  </tr>
+  <tr>
+    <td>Bonus</td>
+    <td class="align-right" id="scorecard-bonus"></td>
+  </tr>
+  <tr>
+    <td>3 of a  kind</td>
+    <td class="align-right" id="scorecard-three_of_a_kind"></td>
+  </tr>
+  <tr>
+    <td>4 of a  kind</td>
+    <td class="align-right" id="scorecard-four_of_a_kind"></td>
+  </tr>
+  <tr>
+    <td>Full house</td>
+    <td class="align-right" id="scorecard-full_house"></td>
+  </tr>
+  <tr>
+    <td>Small straight</td>
+    <td class="align-right" id="scorecard-small_straight"></td>
+  </tr>
+  <tr>
+    <td>Large straight</td>
+    <td class="align-right" id="scorecard-large_straight"></td>
+  </tr>
+  <tr>
+    <td>Yahztee</td>
+    <td class="align-right" id="scorecard-yahtzee"></td>
+  </tr>
+  <tr>
+    <td>Chance</td>
+    <td class="align-right" id="scorecard-chance"></td>
+  </tr>
+  <tr>
+    <strong>
+      <td>Total score</td>
+      <td class="align-right" id="scorecard-total"></td>
+    </strong>
+  </tr>
+</table>
+
+</body>
+
+<script>
+$.ajaxSetup({
+  headers: { 'Authorization' : 'Token m1y4K6MPsLx6Hi0ifAiBOgtt' }
+});
+
+function updateDisplay(data) {
+  $("#loading").hide();
+  $("#progress").text(data.rollCount);
+  updateDice(data.dice);
+  clearCheckboxes();
+  refreshScorecard(data.scorecard);
+  if (data.rollCount == 3) {
+    $("#roll-button").addClass("disable");
+    showRollResultOnScorecard(data.rollResult);
+  } else {
+    $("#roll-button").removeClass("disable");
+  };
+};
+
+function updateDice(data) {
+  $("#die_1").find(".value").text(data[0]);
+  $("#die_2").find(".value").text(data[1]);
+  $("#die_3").find(".value").text(data[2]);
+  $("#die_4").find(".value").text(data[3]);
+  $("#die_5").find(".value").text(data[4]);
+};
+
+function diceToRoll() {
+  return [
+    $("#die_1").find("input").prop("checked"),
+    $("#die_2").find("input").prop("checked"),
+    $("#die_3").find("input").prop("checked"),
+    $("#die_4").find("input").prop("checked"),
+    $("#die_5").find("input").prop("checked")
+  ];
+}
+
+function clearCheckboxes() {
+  $("#die_1").find("input").prop('checked', false)
+  $("#die_2").find("input").prop('checked', false)
+  $("#die_3").find("input").prop('checked', false)
+  $("#die_4").find("input").prop('checked', false)
+  $("#die_5").find("input").prop('checked', false)
+};
+
+var categories =
+[ "ones", "twos", "threes", "fours", "fives", "sixes",
+  "three_of_a_kind", "four_of_a_kind", "full_house",
+  "small_straight", "large_straight", "yahtzee", "chance" ];
+
+function refreshScorecard(data) {
+  $(".complete-turn").off("click");
+  $(".complete-turn").removeClass("complete-turn");
+  for (var i = 0; i < categories.length; i++) {
+    $("#scorecard-" + categories[i]).text('');
+    $("#scorecard-" + categories[i]).text(data[categories[i]]);
+  };
+  $("#scorecard-bonus").text(data["bonus"]);
+  $("#scorecard-total").text(data["total"]);
+};
+
+function showRollResultOnScorecard(data) {
+  for (var i = 0; i < categories.length; i++) {
+    if ( $("#scorecard-" + categories[i]).text() == '' ) {
+      $("#scorecard-" + categories[i]).parent().addClass("complete-turn");
+      $("#scorecard-" + categories[i]).parent().attr('data-select', categories[i]);
+      $("#scorecard-" + categories[i]).text(data[categories[i]]);
+    };
+  };
+
+  $(".complete-turn").click(function(){
+    $.post("http://localhost:3333/yahtzee/complete_turn", { select: $(this).data("select") }, function(data) {
+      console.log(JSON.stringify(data));
+      updateDisplay(data);
+    }, "json" );
+  });
+
+};
+
+$.get("http://localhost:3333/yahtzee/game", function(data) {
+  console.log(JSON.stringify(data));
+  updateDisplay(data);
+}, "json" );
+
+$("#roll-button").click(function(){
+  if ( $(this).hasClass("disable") ) {
+    alert('Please complete your turn by selecting a score on the scorecard.');
+  } else {
+    $.post("http://localhost:3333/yahtzee/roll",
+    { dice: diceToRoll() },
+    function(data) {
+      console.log(JSON.stringify(data));
+      updateDisplay(data);
+    }, "json" );
+  };
+});
+
+</script>
+
+</html>

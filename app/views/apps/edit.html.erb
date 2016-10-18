@@ -1,0 +1,21 @@
+<br>
+<%= form_for @app do |f| %>
+  <%= content_tag :div, class: "form-group" do %>
+    <%= f.text_field :label, class: 'form-control' %>
+  <% end %>
+  <%= content_tag :div, class: "checkbox" do %>
+    <%= f.label :published do %>
+      <%= f.check_box :published %> Publish
+    <% end %>
+  <% end %>
+  <%= content_tag :div, class: "checkbox" do %>
+    <%= f.label :exercise do %>
+      <%= f.check_box :exercise %> Exercise
+    <% end %>
+  <% end %>
+  <%= content_tag :div, class: 'btn-group pull-left' do %>
+    <%= button_tag type: :submit, class: 'btn btn-primary' do %>
+      <%= content_tag(:i, nil, class: 'fa fa-edit') %> Update
+    <% end %>
+  <% end %>
+<% end %>

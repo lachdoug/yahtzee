@@ -1,0 +1,23 @@
+<%= link_to icon('fa-arrow-up'), root_path, class: 'btn btn-lg btn-link' %>
+<h3><%= @user.is_admin? ? 'Library' : @user.username %> apps</h3>
+<%= 'No published apps' unless @apps %>
+<% @apps.reject{ |app| app.exercise }.each do |app| %>
+  <%= content_tag :div, class: 'btn-group' do %>
+    <%= link_to app.label, run_app_path(id: app.id), class: 'btn btn-link', target: 'yahtzee_client' %>
+    <%= link_to icon('fa-share-alt'), clone_app_path(id: app.id), class: 'btn btn-link', 'data-confirm': 'Are you sure that you want to fork this app?' %>
+  <% end %>
+  <br>
+<% end %>
+<h5>
+  Exercises
+  <%= content_tag :div, class: "btn-group pull-right" do %>
+    <%= link_to icon_text('fa-share-alt', 'Fork all exercises'), clone_app_path(id: 'exercises'), 'data-confirm': 'Are you sure that you want to fork all excercise apps?' %>
+  <% end if @user.is_admin? && !current_user.is_admin? %>
+</h5>
+<% @apps.select{ |app| app.exercise }.each do |app| %>
+  <%= content_tag :div, class: 'btn-group' do %>
+    <%= link_to app.label, run_app_path(id: app.id), class: 'btn btn-link', target: 'yahtzee_client' %>
+    <%= link_to icon('fa-share-alt'), clone_app_path(id: app.id), class: 'btn btn-link', 'data-confirm': 'Are you sure that you want to fork this app?' %>
+  <% end %>
+  <br>
+<% end %>

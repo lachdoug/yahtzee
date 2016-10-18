@@ -1,0 +1,18 @@
+<br>
+<%= form_for @section do |f| %>
+<%= content_tag :div, class: 'form-group' do %>
+<%= f.label :page_id %>
+<%= f.select :page_id, Page.all.collect {|p| [ p.name, p.id ] }, {}, class: 'form-control' %>
+<% end %>
+<%= content_tag :div, class: 'form-group' do %>
+<%= f.label :order %>
+<%= f.number_field :order, class: 'form-control' %>
+<% end %>
+<%= content_tag :div, class: 'form-group' do %>
+<%= f.label :body %>
+<%= f.text_area :body, style: 'height: 300px;', class: 'form-control' %>
+<% end %>
+<%= content_tag :div, class: 'form-group' do %>
+<%= f.submit class: 'btn btn-primary' %>
+<% end %>
+<% end %>

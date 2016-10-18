@@ -1,0 +1,31 @@
+<br>
+<p><%= link_to icon_text('fa-plus', 'New'), new_app_path, class: 'btn btn-link' %></p>
+<% @apps.reject(&:published).reject(&:exercise).each do |app| %>
+  <%= render app %>
+  <br>
+<% end %>
+<% @published_apps = @apps.select(&:published).reject(&:exercise) %>
+<%= content_tag(:h5, 'Published') if @published_apps.any? %>
+<% @published_apps.each do |app| %>
+  <%= render app %>
+  <br>
+<% end %>
+<% @exercise_apps = @apps.reject(&:published).select(&:exercise) %>
+<%= content_tag(:h5) do %>
+  <%= 'Exercises' %>
+  <%= content_tag :div, class: "btn-group pull-right" do %>
+    <%= button_to exercise_apps_path, method: :delete, class: 'btn btn-link', 'data-confirm': 'Are you sure that you want to delete all unpublished exercise apps?' do %>
+      <%= icon_text('fa-trash-o', 'Delete all exercises') %>
+    <% end unless current_user.is_admin? %>
+  <% end %>
+<% end if @exercise_apps.any? %>
+<% @exercise_apps.each do |app| %>
+  <%= render app %>
+  <br>
+<% end %>
+<% @published_exercise_apps = @apps.select(&:published).select(&:exercise) %>
+<%= content_tag(:h5, 'Published exercises') if @published_exercise_apps.any? %>
+<% @published_exercise_apps.each do |app| %>
+  <%= render app %>
+  <br>
+<% end %>

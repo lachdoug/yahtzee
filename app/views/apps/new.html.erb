@@ -1,0 +1,12 @@
+<br>
+<%= form_for @app do |f| %>
+  <%= content_tag :p do %>
+    <%= f.text_field :label, class: 'form-control', placeholder: 'Give the app a label...' %>
+  <% end %>
+  <%= content_tag :p, class: 'btn-group pull-left' do %>
+    <%= button_tag type: :submit, class: 'btn btn-primary' do %>
+      <%= content_tag(:i, nil, class: 'fa fa-plus') %> Create
+    <% end %>
+  <% end %>
+
+<% end %>

@@ -1,0 +1,23 @@
+<%= link_to :app, run_app_path(@app), target: :yahtzee_client, id: 'run_app_link', style: 'display: none;' %>
+<%= content_tag :div, class: 'btn-group' do %>
+  <%= link_to icon('fa-arrow-up'), apps_path, class: 'btn btn-lg btn-link' %>
+<% end %>
+<%= form_for @app, url: code_path(app_id: @app.id), remote: true do |f| %>
+  <%= content_tag :h3 do %>
+    <%= @app.label %>
+    <%= content_tag :div, class: 'btn-group pull-right' do %>
+      <%= button_tag type: :submit, class: 'btn btn-lg btn-link' do %>
+        <%= content_tag(:i, nil, class: 'fa fa-save') %> Save
+      <% end %>
+    <% end %>
+  <% end %>
+  <%= content_tag :p do %>
+    <%= f.text_area :file, class: 'app_input', spellcheck: false %>
+  <% end %>
+<% end %>
+
+<p>
+Yahtzee Server<br>
+API: <%= Rails.application.config.app_host_path %>/games/yahtzee<br>
+Token for <%= current_user.username %>: <%= current_user.api_token %><br>
+</p>

@@ -1,0 +1,66 @@
+<div class="text-center">
+
+  <div class="rolling_die rolling_die_original">
+    <div id="background"></div>
+    <div id="wrapper">
+      <div id="platform">
+        <%= link_to ( current_user ? apps_path : new_user_session_path ) do %>
+          <div id="dice">
+            <div class="side front">
+              <div class="ddot center"></div>
+            </div>
+            <div class="side front inner"></div>
+            <div class="side top">
+              <div class="ddot dtop dleft"></div>
+              <div class="ddot dbottom dright"></div>
+            </div>
+            <div class="side top inner"></div>
+            <div class="side right">
+              <div class="ddot dtop dleft"></div>
+              <div class="ddot center"></div>
+              <div class="ddot dbottom dright"></div>
+            </div>
+            <div class="side right inner"></div>
+            <div class="side left">
+              <div class="ddot dtop dleft"></div>
+              <div class="ddot dtop dright"></div>
+              <div class="ddot dbottom dleft"></div>
+              <div class="ddot dbottom dright"></div>
+            </div>
+            <div class="side left inner"></div>
+            <div class="side bottom">
+              <div class="ddot center"></div>
+              <div class="ddot dtop dleft"></div>
+              <div class="ddot dtop dright"></div>
+              <div class="ddot dbottom dleft"></div>
+              <div class="ddot dbottom dright"></div>
+            </div>
+            <div class="side bottom inner"></div>
+            <div class="side back">
+              <div class="ddot dtop dleft"></div>
+              <div class="ddot dtop dright"></div>
+              <div class="ddot dbottom dleft"></div>
+              <div class="ddot dbottom dright"></div>
+              <div class="ddot center dleft"></div>
+              <div class="ddot center dright"></div>
+            </div>
+            <div class="side back inner"></div>
+            <div class="side cover x"></div>
+            <div class="side cover y"></div>
+            <div class="side cover z"></div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="leaderboard">
+  <table>
+    <% @users.each_with_index do |user, i| %>
+      <tr><td><%= i + 1 %></td><td><%= link_to "#{user.username} - #{user.user_metrics.average_score.to_i}", run_apps_path(user_id: user.id) %></td></tr>
+    <% end %>
+  </table>
+  <br>
+  <%= link_to "Library", run_apps_path(user_id: 1) %>
+</div>

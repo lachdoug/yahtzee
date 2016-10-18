@@ -1,0 +1,4 @@
+<br>
+<% @clients.each do |client| %>
+  <p><%= link_to ( client.label || 'No label' ), client %></p>
+<% end %>
