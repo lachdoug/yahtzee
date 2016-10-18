@@ -127,11 +127,11 @@ class Game < ApplicationRecord
   end
 
   def three_of_a_kind
-    sorted_dice.chunk(&:to_i).map(&:second).map{ |s| ( s.length > 2 ) ? s.sum : 0  }.max
+    sorted_dice.chunk(&:to_i).map(&:second).map{ |s| ( s.length > 2 ) ? sorted_dice.sum : 0  }.max
   end
 
   def four_of_a_kind
-    sorted_dice.chunk(&:to_i).map(&:second).map{ |s| ( s.length > 3 ) ? s.sum : 0  }.max
+    sorted_dice.chunk(&:to_i).map(&:second).map{ |s| ( s.length > 3 ) ? sorted_dice.sum : 0  }.max
   end
 
   def full_house
