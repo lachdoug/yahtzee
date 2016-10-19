@@ -3,7 +3,8 @@
 Build a js Yahtzee game. Rails 5 app.
 
 ### application.rb
-config.app_host_path = ENV['RAILS_CONFIG_APP_HOST_PATH'] e.g "http://localhost:3333"
+config.app_host_path = ENV['RAILS_CONFIG_APP_HOST_PATH'] default is "http://localhost:3000"
+config.workshop_key = ENV['RAILS_CONFIG_WORKSHOP_KEY'] default is 'dhsvad'
 
 ### Admin
 default admin password is 'password'
