@@ -18,9 +18,9 @@ module Yahtzee
 
     config.workshop_key = ENV['RAILS_CONFIG_WORKSHOP_KEY'] || 'dhsvad'
     config.app_host_path =
-     # following regex matches last character if it's a '/'
-      ENV['RAILS_CONFIG_APP_HOST_PATH'].sub(/[\/]?$/, '') ||
-      'http://localhost:3000'
+      (ENV['RAILS_CONFIG_APP_HOST_PATH'] ||
+      'http://localhost:3000' ).sub(/[\/]?$/, '')
+      # regex matches last character if it's a '/'
 
   end
 end
