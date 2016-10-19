@@ -18,7 +18,7 @@ class Game < ApplicationRecord
   end
 
   def roll(dice_to_roll=[])
-    return if !playing_a_turn || game_over
+    return if turn_must_complete || game_over
     dice_to_roll.map!{ |roll_die| roll_die == "true" }
     5.times do |i| # dice.each_with_index do |die, i|
       self.dice[i] = rand(1..6) if dice[i].nil? || dice_to_roll[i]
@@ -27,16 +27,18 @@ class Game < ApplicationRecord
   end
 
   def complete_turn(selection)
-    return if selection.nil? || game_over || playing_a_turn || scorecard[selection.to_sym].present?
+    # byebug
+    return if selection.nil? || game_over || turn_has_not_started || scorecard[selection.to_sym].present?
     self.scorecard[selection.to_sym] = roll_result[selection.to_sym]
     increment_turn_count
     self.roll_count = 0
     self.dice = []
+    save
     if game_over
       self.score = total
-      user.update_metrics
+      save
+      user.user_metrics.update
     end
-    save
   end
 
   def increment_roll_count
@@ -92,9 +94,14 @@ class Game < ApplicationRecord
     turn_count.to_i > 12
   end
 
-  def playing_a_turn
-    roll_count.to_i < 3
+  def turn_must_complete
+    roll_count.to_i > 2
   end
+
+  def turn_has_not_started
+    roll_count.to_i == 0
+  end
+
 
   private
 

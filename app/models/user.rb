@@ -39,10 +39,10 @@ class User < ApplicationRecord
     username == 'admin'
   end
 
-  def update_metrics
-    user_metrics.update
-    # byebug
-  end
+  # def update_metrics
+  #   user_metrics.update
+  #   # byebug
+  # end
 
   def self.ranked_users
     all.reject(&:is_admin?).

@@ -9,15 +9,14 @@ class App < ApplicationRecord
   before_create :set_defaults
 
   def file=(text)
-    text.gsub!(user.api_token, '___USER_API_TOKEN___')
+    text.gsub!(user.api_token, '___USER_API_TOKEN___') if user # 'if user' added to allow migrations to insert app file data
     super text
   end
 
   def file
     text = super
-    text.gsub('___USER_API_TOKEN___', user.api_token)
+    text.gsub('___USER_API_TOKEN___', user.api_token) if user
   end
-
 
   private
 
